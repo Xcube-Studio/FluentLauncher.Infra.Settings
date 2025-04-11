@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace FluentLauncher.Infra.Settings.SourceGenerators;
@@ -99,7 +98,7 @@ file static class Execute
                         global::System.WeakReference<global::{{model.Namespace}}.{{model.ClassName}}> weakref = new(this);
                         global::System.Collections.Generic.Dictionary<string, SettingChangedEventHandler> handlers = ((ISettingsViewModel)this).SettingChangedEventHandlers;
 
-            {{initBuilder.ToString()}}
+            {{initBuilder}}
 
                         PropertyChanged += ((ISettingsViewModel)this).SettingsViewModelPropertyChangedCallback;
                     }
@@ -111,7 +110,7 @@ file static class Execute
                         SettingsService container = {{model.SettingsProviderMemberName}};
                         switch (e.PropertyName)
                         {
-            {{propertyChangedBuilder.ToString()}}
+            {{propertyChangedBuilder}}
                             default: break;
                         }
                     }
@@ -123,7 +122,7 @@ file static class Execute
                         SettingsService container = {{model.SettingsProviderMemberName}};
                         global::System.Collections.Generic.Dictionary<string, SettingChangedEventHandler> handlers = ((ISettingsViewModel)this).SettingChangedEventHandlers;
 
-            {{finalizerBuilder.ToString()}}
+            {{finalizerBuilder}}
                     }
                 }
             }

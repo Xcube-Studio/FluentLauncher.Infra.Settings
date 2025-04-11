@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FluentLauncher.Infra.Settings.SourceGenerators/FluentLauncher.Infra.Settings.SourceGenerators.csproj" />
+  <Project Path="FluentLauncher.Infra.Settings/FluentLauncher.Infra.Settings.csproj" />
+</Solution>
