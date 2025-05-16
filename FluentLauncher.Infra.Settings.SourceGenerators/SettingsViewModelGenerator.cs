@@ -177,13 +177,13 @@ public class SettingsViewModelInformation
 {
     public string Namespace { get; set; }
     public string ClassName { get; }
-    public string SettingsProviderClassFullName { get; }
-    public string SettingsProviderMemberName { get; }
+    public string? SettingsProviderClassFullName { get; }
+    public string? SettingsProviderMemberName { get; }
     public List<(string Name, string Path, string Type)> BindToSettingMembers { get; } = new();
 
     public SettingsViewModelInformation(ClassDeclarationSyntax classDeclaration, SemanticModel semanticModel)
     {
-        var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration);
+        var classSymbol = semanticModel.GetDeclaredSymbol(classDeclaration)!;
         Namespace = classSymbol.ContainingNamespace.ToDisplayString();
         ClassName = classDeclaration.Identifier.ValueText;
 
@@ -200,7 +200,7 @@ public class SettingsViewModelInformation
 
         // Get settings provider namespace and type name
         var settingsProviderFieldSymbol = semanticModel.GetDeclaredSymbol(settingsProviderDeclSyntax.Declaration.Variables.First()) as IFieldSymbol;
-        SettingsProviderMemberName = settingsProviderFieldSymbol.Name;
+        SettingsProviderMemberName = settingsProviderFieldSymbol!.Name;
         SettingsProviderClassFullName = $"global::{settingsProviderFieldSymbol.Type.ContainingNamespace}.{settingsProviderFieldSymbol.Type.Name}";
 
         // Extract setting binding information
@@ -237,8 +237,8 @@ public class SettingsViewModelInformation
                 continue;
 
             // Get path by evaluating the argument const expression
-            Optional<object> pathExpressionValue = semanticModel.GetConstantValue(pathArgument.Expression);
-            var path = pathExpressionValue.HasValue ? (string)pathExpressionValue.Value : "";
+            Optional<object?> pathExpressionValue = semanticModel.GetConstantValue(pathArgument.Expression);
+            var path = pathExpressionValue.HasValue ? (string)pathExpressionValue.Value! : "";
 
             // Add to list
             if (!type.StartsWith("ObservableCollection"))
